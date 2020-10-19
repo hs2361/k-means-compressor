@@ -65,6 +65,12 @@ void ImageWriter::save()
         stbi_write_bmp(filename, width, height, channels, image);
     else if (extension == "tga")
         stbi_write_tga(filename, width, height, channels, image);
+    else
+    {
+        cout<<"Invalid Filename, Check extension!"<<endl;
+        return;
+    }
+    
 
     delete[] image;
 }
