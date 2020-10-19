@@ -9,10 +9,10 @@ class ImageWriter {
     char* filename;
     int width, height;
     unsigned int channels;
-    int** matrix;
-    char* getExtension();
+    string getExtension();
 
     public:
+    int** matrix;
     ImageWriter(char*, int, int, unsigned int, int**);
     void save();
     ~ImageWriter();
@@ -27,19 +27,22 @@ ImageWriter::ImageWriter(char* filename, int width, int height, unsigned int cha
     this->matrix = matrix;
 }
 
-char* ImageWriter::getExtension() {
-    string name = filename;
+string ImageWriter::getExtension() {
+    string n = filename;
     int i;
-    for(i = name.length() - 1; i>=0 ; i--) {
-        if(name[i] == '.') break;
+    for(i = n.length() - 1; i>=0 ; i--) {
+        if(n[i] == '.') break;
     }
-    return (char*) name[i+1]+name[i+2]+name[i+3];
+    string ret;
+    ret.push_back(n[i+1]);
+    ret.push_back(n[i+2]);
+    ret.push_back(n[i+3]);
+    return ret;
 }
 
 void ImageWriter::save() {
 
-    // char* extension = getExtension();
-    char* extension = "png";
+    string extension = getExtension();
 
     uint8_t* image = new uint8_t[height*width*channels];
     for(int i = 0; i<height*width; i++) {
@@ -58,7 +61,6 @@ void ImageWriter::save() {
     else if(extension == "tga")
         stbi_write_tga(filename, width, height, channels, image);  
 
-    delete extension;
     delete[] image;
 }
 
