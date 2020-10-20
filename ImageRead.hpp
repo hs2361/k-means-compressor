@@ -8,10 +8,11 @@ class ImageReader
 
 private:
     char *filename = NULL;
-    int height, width, bpp;
-    unsigned int channels;
+    int bpp;
 
 public:
+    int height, width;
+    unsigned int channels;
     int **matrix = NULL;
     ImageReader(char *, unsigned int);
     int length() { return height * width; }
