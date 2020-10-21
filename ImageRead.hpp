@@ -13,7 +13,7 @@ private:
 public:
     int height, width;
     unsigned int channels;
-    int **matrix = NULL;
+    float **matrix = NULL;
     ImageReader(char *, unsigned int);
     int length() { return height * width; }
     int getChannels() { return channels; }
@@ -27,9 +27,9 @@ ImageReader::ImageReader(char *filename, unsigned int channels)
     this->filename = filename;
     this->channels = channels;
 
-    matrix = new int *[height * width];
+    matrix = new float *[height * width];
     for (int i = 0; i < height * width; i++)
-        matrix[i] = new int[channels];
+        matrix[i] = new float[channels];
 
     for (int i = 0; i < height * width * channels; i += channels)
     {
