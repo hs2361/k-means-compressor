@@ -11,21 +11,21 @@ private:
     int height, width;
     unsigned int channels;
     int clusters;
-    int **centroids = NULL;
-    int *pixel_cluster_mapping = NULL;
-
-public:
-    int **matrix = NULL;
-    KMeans(int, int **, int, int, unsigned int);
-    void showClusters();
+    int** centroids;
+    int* pixel_cluster_mapping;
     void computeClosestCentroid();
     void computeCentroids();
     void assignCentroids();
+
+    public:
+    float** matrix;
+    KMeans(int, float**, int, int, unsigned int);
+    void showClusters();
+    void fit(int);
     ~KMeans();
 };
 
-KMeans::KMeans(int clusters, int **matrix, int height, int width, unsigned int channels)
-{
+KMeans::KMeans(int clusters, float** matrix, int height, int width, unsigned int channels) {
 
     int seed = time(0);
     srand(seed);
@@ -130,8 +130,15 @@ void KMeans::assignCentroids()
     }
 }
 
-KMeans::~KMeans()
-{
+void KMeans::fit(int n_epochs) {
+    for(int i=0; i<n_epochs; i++) {
+        computeClosestCentroid();
+        computeCentroids();
+    }
+    assignCentroids();
+}
+
+KMeans::~KMeans() {
 
     for (int i = 0; i < clusters; i++)
     {

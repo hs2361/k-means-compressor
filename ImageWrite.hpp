@@ -11,14 +11,14 @@ private:
     int width = 0, height = 0;
     unsigned int channels = 0;
     string getExtension();
+    float **matrix = NULL;
 
 public:
-    int **matrix = NULL;
-    ImageWriter(char *, int, int, unsigned int, int **);
+    ImageWriter(char *, int, int, unsigned int, float **);
     void save();
 };
 
-ImageWriter::ImageWriter(char *filename, int width, int height, unsigned int channels, int **matrix)
+ImageWriter::ImageWriter(char *filename, int width, int height, unsigned int channels, float **matrix)
 {
 
     this->filename = filename;
@@ -54,7 +54,7 @@ void ImageWriter::save()
     {
         for (int j = 0; j < channels; j++)
         {
-            image[(i * channels) + j] = matrix[i][j];
+            image[(i * channels) + j] = (uint8_t)matrix[i][j];
         }
     }
     if (extension == "png")
