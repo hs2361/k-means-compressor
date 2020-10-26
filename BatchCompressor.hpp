@@ -1,46 +1,34 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <filesystem>
 #include "ImageRead.hpp"
 #include "ImageWrite.hpp"
 #include "KMeans.hpp"
 using namespace std;
+namespace fs = std::filesystem;
 
-class BatchCompressor
-{
+class BatchCompressor {
 
-private:
-    string directory;
-    string output_format;
+    private:
+    string input_dir;
     string output_dir;
-    vector<string> images;
+    string output_format;
     int clusters;
-    int iterations;
+    int n_iterations;
     inline bool ends_with(string, string);
     bool replace(string &, const string &, const string &);
 
-public:
+    public:
     BatchCompressor(string, string, int, string, int);
-    void compress();
+    void Process();
 };
 
-BatchCompressor::BatchCompressor(string directory, string output_dir, int clusters, string output_format = "png", int iterations = 10)
-{
-    this->directory = directory;
-    this->output_format = output_format;
+BatchCompressor::BatchCompressor(string input_dir, string output_dir, int clusters, string output_format = "png", int n_iterations = 10) {
+    this->input_dir = input_dir;
     this->output_dir = output_dir;
+    this->output_format = output_format;
     this->clusters = clusters;
-    this->iterations = iterations;
-    filesystem::directory_iterator dir_traverser(directory);
-
-    for (const auto &dirEntry : dir_traverser)
-    {
-        if (!dirEntry.is_directory())
-        {
-            if (ends_with(dirEntry.path(), "png") || ends_with(dirEntry.path(), "jpg") || ends_with(dirEntry.path(), "jpeg") || ends_with(dirEntry.path(), "tga") || ends_with(dirEntry.path(), "bmp"))
-            {
-                images.push_back(dirEntry.path());
-            }
-        }
-    }
+    this->n_iterations = n_iterations;
 }
 
 bool BatchCompressor::ends_with(string value, string ending)
@@ -59,30 +47,20 @@ bool BatchCompressor::replace(string &str, const string &from, const string &to)
     return true;
 }
 
-void BatchCompressor::compress()
-{
-    if (filesystem::create_directory(output_dir))
-    {
-        for (string img : images)
-        {
-            ImageReader reader((char *)img.c_str(), 3);
-            KMeans model(clusters, reader.matrix, reader.height, reader.width, reader.channels);
-
-            for (int i = 0; i < iterations; i++)
-            {
-                model.computeClosestCentroid();
-                model.computeCentroids();
+void BatchCompressor::Process(){
+    string path;
+    if (filesystem::create_directory(output_dir)) { 
+        for(auto& img: fs::directory_iterator(input_dir)) {
+            path = img.path().string();
+            if(ends_with(path, "png") || ends_with(path, "jpg") || ends_with(path, "jpeg") || ends_with(path, "tga") || ends_with(path, "bmp")) {
+                ImageReader imread((char*)path.c_str(), 3);
+                KMeans model(clusters, imread.matrix, imread.height, imread.width, imread.channels);
+                model.fit(n_iterations);
+                replace(path, input_dir, "");
+                string output_path = output_dir + path;
+                ImageWriter imsave((char *)output_path.c_str(), imread.width, imread.height, imread.channels, imread.matrix);
+                imsave.save();
             }
-            model.assignCentroids();
-            replace(img, directory, "");
-            cout << (char *)(output_dir + img).c_str() << endl;
-            ImageWriter writer((char *)(output_dir + img).c_str(), reader.width, reader.height, reader.channels, model.matrix);
-            // ImageWriter writer((char *)(output_dir + img).c_str(), reader.width, reader.height, reader.channels, model.matrix);
-            writer.save();
-        }
-    }
-    else
-    {
-        cout << "Failed to create directory\n";
-    }
+        }   
+    }     
 }
