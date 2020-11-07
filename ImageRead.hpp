@@ -1,3 +1,6 @@
+#ifndef IMAGEREAD_HPP
+#define IMAGEREAD_HPP
+
 #include <bits/stdc++.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -14,6 +17,7 @@ public:
     int height, width;
     unsigned int channels;
     float **matrix = NULL;
+    friend class ImageEdit;
     ImageReader(char *, unsigned int);
     int length() { return height * width; }
     int getChannels() { return channels; }
@@ -49,3 +53,5 @@ ImageReader::~ImageReader()
         delete[] matrix[i];
     delete[] matrix;
 }
+
+#endif

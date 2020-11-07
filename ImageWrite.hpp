@@ -1,3 +1,6 @@
+#ifndef IMAGEWRITE_HPP
+#define IMAGEWRITE_HPP
+
 #include <bits/stdc++.h>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -71,6 +74,7 @@ void ImageWriter::save()
         return;
     }
     
-
     delete[] image;
 }
+
+#endif

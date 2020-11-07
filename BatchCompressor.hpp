@@ -1,3 +1,6 @@
+#ifndef BATCHCOMPRESSOR_HPP
+#define BATCHCOMPRESSOR_HPP
+
 #include <iostream>
 #include <string>
 #include <filesystem>
@@ -64,3 +67,5 @@ void BatchCompressor::Process(){
         }   
     }     
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef KMEANS_HPP
+#define KMEANS_HPP
+
 #include <iostream>
 #include <cfloat>
 #include <math.h>
@@ -6,10 +9,10 @@ using namespace std;
 
 class KMeans
 {
-
-private:
+    private:
     int height, width;
     unsigned int channels;
+    float** matrix;
     int clusters;
     int** centroids;
     int* pixel_cluster_mapping;
@@ -18,7 +21,6 @@ private:
     void assignCentroids();
 
     public:
-    float** matrix;
     KMeans(int, float**, int, int, unsigned int);
     void showClusters();
     void fit(int);
@@ -148,3 +150,5 @@ KMeans::~KMeans() {
 
     delete[] pixel_cluster_mapping;
 }
+
+#endif

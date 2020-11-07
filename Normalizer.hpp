@@ -1,3 +1,6 @@
+#ifndef NORMALIZER_HPP
+#define NORMALIZER_HPP
+
 #include <iostream>
 using namespace std;
 
@@ -36,3 +39,5 @@ void Normalizer::denormalize() {
         }
     }
 }
+
+#endif
