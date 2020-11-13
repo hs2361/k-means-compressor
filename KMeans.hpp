@@ -9,25 +9,26 @@ using namespace std;
 
 class KMeans
 {
-    private:
+private:
     int height, width;
     unsigned int channels;
-    float** matrix;
+    float **matrix;
     int clusters;
-    int** centroids;
-    int* pixel_cluster_mapping;
+    float **centroids;
+    int *pixel_cluster_mapping;
     void computeClosestCentroid();
     void computeCentroids();
     void assignCentroids();
 
-    public:
-    KMeans(int, float**, int, int, unsigned int);
+public:
+    KMeans(int, float **, int, int, unsigned int);
     void showClusters();
     void fit(int);
     ~KMeans();
 };
 
-KMeans::KMeans(int clusters, float** matrix, int height, int width, unsigned int channels) {
+KMeans::KMeans(int clusters, float **matrix, int height, int width, unsigned int channels)
+{
 
     int seed = time(0);
     srand(seed);
@@ -38,10 +39,10 @@ KMeans::KMeans(int clusters, float** matrix, int height, int width, unsigned int
     this->width = width;
     this->channels = channels;
 
-    centroids = new int *[clusters];
+    centroids = new float *[clusters];
     for (int i = 0; i < clusters; i++)
     {
-        centroids[i] = new int[channels];
+        centroids[i] = new float[channels];
     }
 
     for (int i = 0; i < clusters; i++)
@@ -132,15 +133,18 @@ void KMeans::assignCentroids()
     }
 }
 
-void KMeans::fit(int n_epochs) {
-    for(int i=0; i<n_epochs; i++) {
+void KMeans::fit(int n_epochs)
+{
+    for (int i = 0; i < n_epochs; i++)
+    {
         computeClosestCentroid();
         computeCentroids();
     }
     assignCentroids();
 }
 
-KMeans::~KMeans() {
+KMeans::~KMeans()
+{
 
     for (int i = 0; i < clusters; i++)
     {

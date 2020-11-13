@@ -70,10 +70,10 @@ void ImageWriter::save()
         stbi_write_tga(filename, width, height, channels, image);
     else
     {
-        cout<<"Invalid Filename, Check extension!"<<endl;
+        cout << "Invalid Filename, Check extension!" << endl;
         return;
     }
-    
+
     delete[] image;
 }
 
