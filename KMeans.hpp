@@ -99,7 +99,7 @@ void KMeans::computeCentroids()
     {
         for (int j = 0; j < channels; j++)
         {
-            int newCoordinate = 0;
+            float newCoordinate = 0;
             int frequency = 0;
             for (int k = 0; k < height * width; k++)
             {
