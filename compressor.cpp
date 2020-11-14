@@ -122,6 +122,8 @@ int main(int argc, char *argv[])
         else
         {
             ImageReader imread((char *)input_path.c_str(), 3);
+            auto start = chrono::high_resolution_clock::now();
+            chrono::_V2::system_clock::time_point stop;
             if (normalize)
             {
                 Normalizer normalizer(imread.matrix, imread.height, imread.width, imread.channels);
@@ -129,6 +131,7 @@ int main(int argc, char *argv[])
                 KMeans compressor(clusters, imread.matrix, imread.height, imread.width, imread.channels);
                 compressor.fit(epochs);
                 normalizer.denormalize();
+                stop = chrono::high_resolution_clock::now();
                 ImageWriter writer((char *)output_path.c_str(), imread.width, imread.height, imread.channels, imread.matrix);
                 writer.save();
             }
@@ -136,9 +139,12 @@ int main(int argc, char *argv[])
             {
                 KMeans compressor(clusters, imread.matrix, imread.height, imread.width, imread.channels);
                 compressor.fit(epochs);
+                stop = chrono::high_resolution_clock::now();
                 ImageWriter writer((char *)output_path.c_str(), imread.width, imread.height, imread.channels, imread.matrix);
                 writer.save();
             }
+            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+            std::cout << duration.count() / pow(10, 6) << "s to compress the image" << endl;
         }
     }
 }
