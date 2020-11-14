@@ -81,9 +81,6 @@ void SeamCarving::Convolution()
                          matrix[(i * width) + j - 1][k] * sobel_y[1][0] + matrix[(i * width) + j][k] * sobel_y[1][1] + matrix[(i * width) + j + 1][k] * sobel_y[1][2] +
                          matrix[((i + 1) * width) + j - 1][k] * sobel_y[2][0] + matrix[((i + 1) * width) + j][k] * sobel_y[2][1] + matrix[((i + 1) * width) + j + 1][k] * sobel_y[2][2];
             }
-            xConv /= channels;
-            yConv /= channels;
-
             convImage[i][j] = sqrtf(xConv * xConv + yConv * yConv);
         }
     }
@@ -142,9 +139,9 @@ void SeamCarving::CalculatePath()
         }
         else
         {
-            if (energy[i][index - 1] <= energy[i][index] && energy[i][index - 1] <= energy[i][index + 1])
+            if (energy[i][index - 1] < energy[i][index] && energy[i][index - 1] < energy[i][index + 1])
                 index = index - 1;
-            else if (energy[i][index] <= energy[i][index - 1] && energy[i][index] <= energy[i][index + 1])
+            else if (energy[i][index] < energy[i][index - 1] && energy[i][index] < energy[i][index + 1])
                 index = index;
             else
                 index = index + 1;
