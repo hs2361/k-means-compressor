@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 #include <chrono>
 #include "ImageRead.hpp"
 #include "ImageWrite.hpp"
