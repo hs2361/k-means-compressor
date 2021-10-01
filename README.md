@@ -29,10 +29,10 @@ The CLI commands are:
 The arguments are listed below
 ```
 Usage:
-Image Compression:
+Image Compression(-c):
 -i: Path to the input image
 -o: Path to the output image
--c: (Optional, default: 64) Number of clusters used for compression 
+-cl: (Optional, default: 64) Number of clusters used for compression 
 -n: (Optional) Normalize the image before compression
 -it: (Optional, default: 5) Number of epochs for k-means compression
 
@@ -40,7 +40,7 @@ Batch Compression (-b):
 -i: Path to the input directory
 -o: Path to the output directory
 -f: Format for output images
--c: (Optional, default: 64) Number of clusters used for compression 
+-cl: (Optional, default: 64) Number of clusters used for compression 
 -it: (Optional, default: 5) Number of epochs for k-means compression
 
 Seam Carving (-s):
