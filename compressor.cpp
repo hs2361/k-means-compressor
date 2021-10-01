@@ -13,22 +13,26 @@ int main(int argc, char *argv[])
     if (argc < 3)
     {
         cout << "Usage:\n";
-        cout << "Image Compression:\n-i: Path to the input image\n-o: Path to the output image\n-c: (Optional, default: 64) Number of clusters used for compression\n-n: (Optional) Normalize the image before compression\n-it: (Optional, default: 5) Number of epochs for k-means compression\n";
-        cout << "\nBatch Compression (-b):\n-i: Path to the input directory\n-o: Path to the output directory\n-f: Format for output images\n-c: (Optional, default: 64) Number of clusters used for compression\n-it: (Optional, default: 5) Number of epochs for k-means compression\n";
-        cout << "\nSeam Carving (-s):\n-i: Path to the input image\n-o: Path to the output image\n-p: (Optional, default: 1) Percentage of width to be retained";
+        cout << "Image Compression(-c):\n-i: Path to the input image\n-o: Path to the output image\n-cl: (Optional, default: 64) Number of clusters used for compression\n-n: (Optional) Normalize the image before compression\n-it: (Optional, default: 5) Number of epochs for k-means compression\n";
+        cout << "\nBatch Compression (-b):\n-i: Path to the input directory\n-o: Path to the output directory\n-f: Format for output images\n-cl: (Optional, default: 64) Number of clusters used for compression\n-it: (Optional, default: 5) Number of epochs for k-means compression\n";
+        cout << "\nSeam Carving (-s):\n-i: Path to the input image\n-o: Path to the output image\n-p: (Optional, default: 1) Percentage of width to be retained\n";
         cout << "\nImage editing (-e):\n-g: Convert to grayscale\n-h: Flip the image horizontally\n-v: Flip the image vertically\n-i: Path to the input image\n-o: Path to the output image\n";
     }
 
     else
     {
         string input_path, output_path, format;
-        bool batch = false, normalize = false, edit = false, seam_carve = false, horizontal_flip = false, vertical_flip = false, grayscale = false;
+        bool single = false, batch = false, normalize = false, edit = false, seam_carve = false, horizontal_flip = false, vertical_flip = false, grayscale = false;
         int clusters = 64, epochs = 5;
         float retention = 1;
 
         for (int i = 0; i < argc; i++)
         {
             string arg = string(argv[i]);
+            if (arg == "-c")
+            {
+                single = true;
+            }
             if (arg == "-i")
             {
                 input_path = argv[i + 1];
@@ -49,7 +53,7 @@ int main(int argc, char *argv[])
             {
                 normalize = true;
             }
-            if (arg == "-c")
+            if (arg == "-cl")
             {
                 clusters = atoi(argv[i + 1]);
             }
@@ -119,7 +123,7 @@ int main(int argc, char *argv[])
             BatchCompressor compressor(input_path, output_path, clusters, format, epochs, normalize);
             compressor.process();
         }
-        else
+        else if (single)
         {
             ImageReader imread((char *)input_path.c_str(), 3);
             auto start = chrono::high_resolution_clock::now();
