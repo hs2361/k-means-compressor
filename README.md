@@ -23,7 +23,7 @@ Image compression is done using the k-means algorithm, pixel values are grouped 
 1. Clone the repo with `git clone https://github.com/DebadityaPal/k-means-compressor`
 2. Run the software with CLI commands
 The CLI commands are:
-`gcc -std=C++17 compressor.cpp <args>`
+`g++ -std=c++17 compressor.cpp <args>`
 
 ## Usage
 The arguments are listed below
