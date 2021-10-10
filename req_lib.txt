@@ -1,0 +1,7 @@
+Required Libraries:
+numpy
+matplotlib
+PIL
+sklearn (optional)
+scipy 
+imageio
