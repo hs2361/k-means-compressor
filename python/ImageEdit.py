@@ -24,9 +24,9 @@ class ImageEdit:
         vert_img.close()
 
     def ConvertToGrayScale(self,filepath):
-        orignal_img = Image.open(filepath)
+        orignal_img = Image.open(filepath).convert('RGB')
         orig_img = np.array(orignal_img)
-        orig_img = np.sum(orig_img*0.33,axis = 2)
+        orig_img = np.dot(orig_img, [0.3, 0.59, 0.11])
         orig_img = np.round(orig_img)
         plt.imshow(orig_img)
         PIL_image = Image.fromarray(np.uint8(orig_img)).convert('RGB')
