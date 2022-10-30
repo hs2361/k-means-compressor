@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
                 cout << "\nSeam Carving (-s):\n-i: Path to the input image\n-o: Path to the output image\n-p: (Optional, default: 1) Percentage of width to be retained";
             ImageReader imread((char *)input_path.c_str(), 3);
             SeamCarving carver(imread.matrix, imread.height, imread.width, imread.channels);
-            carver.fit(imread, (int)(imread.width * retention));
+            carver.fit(imread, (int)(imread.width * (1.0 - retention)));
             ImageWriter writer((char *)output_path.c_str(), imread.width, imread.height, imread.channels, imread.matrix);
             writer.save();
         }
